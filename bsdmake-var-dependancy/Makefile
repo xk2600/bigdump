@@ -87,13 +87,12 @@ $(BOOT_IMAGE_1):
 
 $(MD_DEV_0): ${BOOT_IMAGE_0}
 	@echo "### CREATE FILE BACKED md(4) ON ${BOOT_IMAGE_0}..."
-	/sbin/mdconfig -a -t vnode -f ${BOOT_IMAGE_0}
-	@echo "MADE IT!!!"
+	MD_DEV_0 != /sbin/mdconfig -a -t vnode -f ${BOOT_IMAGE_0}
 	@echo "MD_DEV_0: ${MD_DEV_0}"
 
 $(MD_DEV_1): ${BOOT_IMAGE_1}
 	@echo "### CREATE FILE BACKED md(4) ON ${BOOT_IMAGE_1}..."
-	/sbin/mdconfig -a -t vnode -f ${BOOT_IMAGE_1}
+	MD_DEV_0 != /sbin/mdconfig -a -t vnode -f ${BOOT_IMAGE_1}
 	@echo "MD_DEV_1: ${MD_DEV_1}"
 
 
