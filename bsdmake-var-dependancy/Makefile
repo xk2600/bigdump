@@ -42,11 +42,11 @@ EFI_MOUNT:=    ${STAGE}/efiboot
 MD_DEV_0 !=     mdconfig -lv | grep -F "${BOOT_IMAGE_0}" | grep -oE '^md[0-9]+' 
 MD_DEV_1 !=     mdconfig -lv | grep -F "${BOOT_IMAGE_1}" | grep -oE '^md[0-9]+'
 .if empty(MD_DEV_0) 
-.undef MD_DEV_0
+# .undef MD_DEV_0
 MD_DEV_0 =      UNKNOWN_MD_DEV_0
 .endif
 .if empty(MD_DEV_1)
-.undef MD_DEV_1
+# .undef MD_DEV_1
 MD_DEV_1 =      UNKNOWN_MD_DEV_1
 .endif
 
