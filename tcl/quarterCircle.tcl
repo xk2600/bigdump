@@ -60,8 +60,23 @@ proc bitbangArc {r} {
   return $linelen
 } 
 
-proc go {r} {
-  roundedCorner $r 0 0
-  bitbangArc $r
-}
+proc drawMask {r {invX 0} {invY 0}} {
+  
+  set lBitLen [list]
 
+  if {invX} {
+    set lBitLen lreverse [bitBangArc $r]]
+  } else {
+    set lBitLen [bitBangArc $r]
+  }
+
+  set byteLen [expr
+
+  if {invY} {
+    foreach row
+  } else {
+    foreach row $lBitLen {
+      
+    }
+  }
+}
