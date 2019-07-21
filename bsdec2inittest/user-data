@@ -1,0 +1,44 @@
+#!/bin/sh
+
+RCPREFIX=/usr/local/rc.d
+
+#########################################################################
+# build service rc files... this could be done by fetching scripts from #
+# an https server as well...                                            #
+#########################################################################
+
+#################### serviceA ###########################
+[ -f ${RCPREFIX}/serviceA ] || cat << serviceA > /usr/local/rc.d/serviceA
+#!/bin/sh
+
+. /etc/rc.subr
+
+# PROVIDE: serviceA
+# REQUIRE: user_data
+
+rcvar="serviceA_enable"
+
+# ... removed for brevity
+
+serviceA
+#################### serviceA ###########################
+
+#################### serviceB ###########################
+[ -f ${RCPREFIX}/serviceB ] || cat << serviceB > ${RCPREFIX}/serviceB
+#!/bin/sh
+
+. /etc/rc.subr
+
+# PROVIDE: serviceB
+# REQUIRE: serviceA
+
+rcvar="serviceB_enable"
+
+# ... removed for brevity
+
+serviceA
+#################### serviceB ###########################
+
+# start serviceB, which resolves the need for serviceA 
+#   starting serviceA first.
+service serviceB start
