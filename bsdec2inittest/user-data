@@ -8,7 +8,7 @@ RCPREFIX=/usr/local/rc.d
 #########################################################################
 
 #################### serviceA ###########################
-[ -f ${RCPREFIX}/serviceA ] || cat << serviceA > /usr/local/rc.d/serviceA
+[ -f ${RCPREFIX}/serviceA ] || cat << serviceA > ${RCPREFIX}/serviceA
 #!/bin/sh
 
 . /etc/rc.subr
