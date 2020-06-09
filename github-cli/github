@@ -1,0 +1,157 @@
+#!/usr/bin/env tclsh
+#vim:syntax=tcl
+
+package require TclOO
+
+package require http 2
+package require tls 1.7
+http::register https 443 [list ::tls::socket -autoservername true]
+
+
+
+
+namespace eval ESOS::SourceControl {
+
+  oo::class create git
+  oo::class define git {
+    
+    ##### PRIVATE VARIABLES ###################################################
+
+    variable Creds
+    variable Host
+    variable Proto
+
+    # Class initializer for object shared variables
+    initialize {
+      
+      variable UserObject
+
+    }
+
+    constructor { {options {}} args} {
+
+      # if options contains any elements... 
+      if {[llength $options] > 0} {
+        
+        # are there additional args?
+        if {[llength $args] > 0} {
+          # user submitted keyed list 
+          lappend options $args
+        } ; # else user submitted dict of options
+        
+        # is our resultant options a legal dict?
+        if {[catch {set optvars [dict keys $options]]} res]} {
+          return -code error {optVar missing optVal}
+        }
+      }
+
+      # set defaults
+      set Host localhost
+      set Proto ssh
+      array set Creds {
+        user {}
+        pass {}
+      }
+      set CredsFile ~/.git-credentials
+
+      # validate options
+      dict for {optVar optVal} $options {
+        set optVar [string totitle $optVar]
+        switch -- $optVar {
+
+          Host --
+          Proto --
+          CredsFile {
+            set $optVar $optVar
+          }
+
+          Username --
+          Password {
+            set creds($optVar) $optVal
+          }
+        } 
+      }
+
+      # NOTE: NEED TO FIX THIS SO THAT IT VALIDATES THE CLASS VARIABLE
+      #       UserObject IS NOT ALREADY CREATED
+      # attempt to create useroption
+      if 0 {
+
+        classvariable UserObject
+        set UserObject [git create]
+
+        GetCredentials user
+      }
+
+    }
+
+
+    ##### SHARED PRIVATE METHODS ##############################################
+
+    # GetCredentials-- <private method>
+    # 
+    #       Method for retrieving stored git credentials, by processing
+    #       $git(credfile), and extracting the proto, user, pass and host
+    #       from each line.
+    #
+    method GetCredentials {{user {object}}} {
+      set syntax {ambiguous subcommand '%s' must be: user, or object.}
+      switch -exact -- $user {
+        user {
+          # update object-shared classvariable $user
+
+          classvariable usercreds
+          variablename usercreds
+        }
+        object {
+          # update this object
+          variable creds
+        }
+        default {
+          return -code error [format $syntax $user]
+        }
+      }
+    
+      if {[catch {set fd [open $credifle r]} res]} {
+        return -code error "failed to open $credfile"
+      }
+
+      # iterate over lines in git-credential file
+      while {[gets $fd credline] >= 0} {
+        regexp -- \
+               {^([A-Za-z]*)[:][/][/]([^:]*)[:]([^@]*)[@](github[.]com)$} \
+               $credline gitproto gituser gitpass githost} {
+        set user(
+      }
+    }
+
+
+    ##### PUBLIC METHODS ######################################################
+
+  }
+
+}
+
+oo::class create github {
+
+
+
+
+  constructor {
+
+    variable credfile
+    variable git
+
+
+    # create repo
+    set credfile ~/.git-credentials
+    set 
+
+    GetCredentials
+
+    set url "https://api.github.com/users/<username>/repos?access_token=$git(cred)"
+
+  }
+
+
+}
