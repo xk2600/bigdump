@@ -190,8 +190,8 @@ A `txToken` is comprised of:
   - `pub`  - public key for originator
   - `sig1` - signed cert authorized by proxyP.1
   - `sig2` - signed cert authorized by proxyP.2
-  - `pathHash` - 
-
+  - `pathHash` - of `transitMX` in `transitPeer`s `transaction diameter`
+  
 A `txToken` 
 
 - A `txToken` is created by combining half of each element of work provided by
@@ -259,8 +259,7 @@ permits transmission.
 
 ## Leek Services
 
- - 128bit UUID hash representing 
- - issued 
+ 
 
 
 ## Packet Transmision
